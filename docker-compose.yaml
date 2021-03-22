@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - "6379"
+    environment:
+      GET_HOSTS_FROM: dns
+    restart: on-failure
+  api-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      labels:
+        app: "ghrepos-api"
+        description: "project git hub repositories list using webscraping"
+        groupid: "laersondev.com.br"
+        version: "latest"
+        kompose.service.type: LoadBalancer
+    environment:
+      JAVA_OPTS: "-Ddebug=false -Dspring.profiles.active=default"
+      GET_HOSTS_FROM: dns
+    depends_on:
+      - redis
+    image: ghrepos-api:latest
+    ports:
+      - "0.0.0.0:8080:8080"
+      - "0.0.0.0:5005:5005"
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
