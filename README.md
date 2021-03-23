@@ -47,7 +47,7 @@ The image is available at: https://hub.docker.com/r/laerson/ghrepos-api
  	
  	The project use redis for caching with multiples instances environment. Use docker compose for running:
  	```
-    curl https://raw.githubusercontent.com/laercioVieira/ghrepos-api/master/docker-compose.yaml -o ./docker-compose.yaml  
+    curl https://raw.githubusercontent.com/laercioVieira/ghrepos-api/master/docker-compose-prd.yaml -o ./docker-compose.yaml  
 
     docker-compose up  
 
@@ -60,8 +60,8 @@ The image is available at: https://hub.docker.com/r/laerson/ghrepos-api
 
 - For testing, use any tool for http request like <b><i>curl</i></b> ou <b><i>postman</i></b>
 	
-	The API is available too at Amazon AWS at:  
-   </aws url/>
+	The API is available too at Heroku:  
+   https://ghrepos-api.herokuapp.com/api/swagger-ui.html
 	
 <br/>
 
