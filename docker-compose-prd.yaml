@@ -10,21 +10,12 @@ services:
     volumes:
       - cache_data:/data
   backend-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      labels:
-        app: "ghrepos-api"
-        description: "project git hub repositories list using webscraping"
-        groupid: "laersondev.com.br"
-        version: "latest"
-        kompose.service.type: LoadBalancer
+    image: laerson/ghrepos-api:latest  
     environment:
       JAVA_OPTS: "-Ddebug=false -Dspring.profiles.active=default -Dspring.cache.type=redis -Dspring.redis.host=redis -Dspring.redis.port=6379"
       GET_HOSTS_FROM: dns
     depends_on:
       - redis
-    image: laerson/ghrepos-api:latest
     ports:
       - "8080-8084"
     restart: on-failure
